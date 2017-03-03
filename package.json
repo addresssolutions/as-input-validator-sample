@@ -1,0 +1,21 @@
+{
+  "name": "as_input_validator",
+  "version": "1.0.0",
+  "description": "Input Validation for Address Data",
+  "main": "as_input_validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ralf Geerken",
+  "license": "",
+  "dependencies": {
+    "body-parser": "^1.17.0",
+    "bootstrap-validator": "^0.11.9",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.1",
+    "serve-favicon": "^2.3.2",
+    "xmlrpc": "^1.3.2"
+  }
+}
