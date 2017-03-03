@@ -66,11 +66,11 @@ app.get('/', function(req, res) {
 
 app.get('/address_validation_mask', function(req, res) {
     var v_name_elements = {salutation: "", title: "", firstname: "", lastname: ""};
-    var v_buttons = as_language_pack.buttons_gb;
-    var v_selectalble_salutations = [{key: as_language_pack.salutations_gb.mr},
-                                     {key: as_language_pack.salutations_gb.mrs}];
-    var v_field_titles = as_language_pack.field_titles_gb;
-    var v_error_messages = as_language_pack.error_messages_gb;
+    var v_buttons = as_language_pack.buttons_de;
+    var v_selectalble_salutations = [{key: as_language_pack.salutations_de.mr},
+                                     {key: as_language_pack.salutations_de.mrs}];
+    var v_field_titles = as_language_pack.field_titles_de;
+    var v_error_messages = as_language_pack.error_messages_de;
 
     res.render('address_validation_mask', {
       NameElements: v_name_elements,
@@ -85,7 +85,7 @@ app.post('/address_validation_mask', function(req, res, next) {
   if(req.xhr || req.accepts('json,html')==='json'){
     var as_req = new as_address_solutions_validator.ASConvertNameRequest(
       1,                          // VersionInput
-      "gb",                        // Countrycode de/nl/gb/fr/ch/nn
+      "de",                        // Countrycode de/nl/gb/fr/ch/nn
       req.body.SalutationInput,   // Anrede
       req.body.TitleInput,        // Titel
       req.body.FirstnameInput,    // Vorname
