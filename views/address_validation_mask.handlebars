@@ -1,0 +1,497 @@
+<div class="container" style="background-image: url(/img/dummy.png);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;">
+
+  <!-- Form Name -->
+  <form id="contact_form" method="POST" class="form-horizontal" action="/address_validation_mask" role="form">
+
+    <fieldset>
+
+      <div class="page-header">
+        <div class="jumbotron">
+            <div class="form-group">
+              <div class="col-sm-10">
+                <h1>Adress-Validierung</h1>
+                <p>Sichere und korrekte Erfassung von Adreßdaten - eine Demoseite</p>
+                <h5>powered by AS Address Solutions (c) 2017</h5>
+              </div>
+              <div class="col-sm-2">
+                <img src="/img/aslogo.png" alt="AS Address Solutions GmbH" height=150px>
+            </div>
+        </div>
+      </div>
+
+      <!-- flash message -->
+      <div id="form_errors" class="alert alert-danger fade in" style="display:none"></div>
+      <!--
+      <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+      -->
+
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <!-- Name Panel-->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseName">Person/Name</a>
+            </h3>
+          </div>
+
+          <div id="collapseName" class="panel-collapse collapse in">
+            <div class="panel-body">
+
+              <div id = "name_validation_alert_placeholder"></div>
+              <!--
+              <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+            -->
+
+              <div class="row">
+
+                <div class="form-group col-md-2 selectContainer has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="SalutationInput">{{FieldTitles.salutation}}</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <select class="form-control form-control-inline" id="SalutationInput" name="SalutationInput" value="{{NameElements.firstname}}" >
+                        <option value="{{NameElements.salutation}}">{{NameElements.salutation}}</option>
+                        {{#each SelectableSalutations}}<option value="{{key}}">{{key}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-2 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="TitleInput">{{FieldTitles.title}}</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon"></i></span>
+                      <input type="text" class="form-control" name="TitleInput" id="TitleInput" value="{{NameElements.title}}" data-remote="/as_validate_title">
+                      <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-4 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="FirstnameInput">{{FieldTitles.firstname}}</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon"></i></span>
+                      <input type="text" class="form-control" name="FirstnameInput" id="FirstnameInput" value="{{NameElements.firstname}}" data-minlength="2" data-remote="/as_validate_firstname" data-minlength-error="Vorname muss mind. 2 Zeichen haben">
+                      <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-5 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="LastnameInput">{{FieldTitles.lastname}}</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon"></i></span>
+                      <input type="text" class="form-control" name="LastnameInput" id="LastnameInput" value="{{NameElements.lastname}}" data-remote="/as_validate_lastname">
+                      <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+              </div>
+
+              <button type="submit" class="classAndDocsFormSubmit btn btn-primary btn-validate-name" data-toggle="tooltip" data-placement="bottom" name="btn-validate-name" id="btn-validate-name" title="Prüfen, korrigieren und strukturieren der Namensteile">
+                <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>{{MyButtons.check}}
+              </button>
+              <button type="submit" class="classAndDocsFormSubmit btn btn-success btn-accept-name" data-toggle="tooltip" data-placement="bottom" name="btn-accept-name" id="btn-accept-name" title="OK und weiter zur Anschrift">
+                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+              </button>
+              <button type="submit" class="classAndDocsFormSubmit btn btn-danger btn-restore-name" data-toggle="tooltip" data-placement="bottom" name="btn-restore-name" id="btn-restore-name" title="Meine Eingabe wiederherstellen">
+                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Address Panel-->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseAddress">Anschrift</a>
+            </h3>
+          </div>
+
+          <div id="collapseAddress" class="panel-collapse collapse">
+            <div class="panel-body">
+
+              <div class="row">
+
+                <div class="form-group col-md-2 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="ZIPInput">PLZ</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <input type="text" class="form-control" name="ZIPInput" id="ZIPInput" placeholder="PLZ" data-minlength="5" data-remote="/validate_zip" data-minlength-error="PLZ muss 5 Zeichen haben">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-3 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="CityInput">Ort</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <input type="text" class="form-control" name="CityInput" id="CityInput" placeholder="Ort" data-minlength="2" data-remote="/validate_city" data-minlength-error="Ort muss mind. 2 Zeichen haben">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-4 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="StreetInput">Straße</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <input type="text" class="form-control" id="StreetInput" name="StreetInput" placeholder="Straße" data-remote="/validate_street">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-2 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="HnrInput">HNr</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <input type="text" class="form-control" name="HnrInput" placeholder="HNr" data-remote="/validate_street">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-2 has-feedback">
+                  <div style = "padding-left: 10px;">
+                    <label for="HnrInput">HNr-Zusatz</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <input type="text" class="form-control" name="HnoAddInput" placeholder="HNr-Zusatz" data-remote="/validate_hno">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+
+              </div> <!-- of row-->
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-footer">
+            <!-- Buttons -->
+            <button type="submit" class="btn btn-primary">
+              <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern
+            </button>
+          </div>
+        </div>
+
+      </div> <!-- panel group -->
+
+    </fieldset>
+
+  </form>
+</div><!-- /.container -->
+
+
+
+{{#section 'jquery'}}
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $("#btn-accept-name").hide();
+    $("#btn-restore-name").hide();
+
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+
+    var ls_ok_btn = '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{MyButtons.ok}}';
+    var ls_myentry_btn = '<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> {{MyButtons.myentry}}';
+
+    var ls_status901 = '{{StatusMessages.status901}}';
+    var ls_status902 = '{{StatusMessages.status902}}';
+
+    name_validation_alert = function() {}
+    name_validation_alert.warning = function(message) {
+      $('#name_validation_alert_placeholder').html('<div class="alert alert-warning fade in"><a class="close" data-dismiss="alert">×</a><span><strong>Info!</strong> '+message+'</span></div>')
+    }
+    name_validation_alert.success = function(message) {
+      $('#name_validation_alert_placeholder').html('<div class="alert alert-success fade in"><a class="close" data-dismiss="alert">×</a><span><strong>Erfolg!</strong> '+message+'</span></div>')
+    }
+    name_validation_alert.error = function(message) {
+      $('#name_validation_alert_placeholder').html('<div class="alert alert-danger fade in"><a class="close" data-dismiss="alert">×</a><span><strong>Fehler! Pflichtfeld(er) leer: </strong> '+message+'</span></div>')
+    }
+    name_validation_alert.hide = function() {
+      $('#name_validation_alert_placeholder').html('');
+    }
+
+    // generate message if not all neccessary fields are present
+    function getNameErrMsg(salutation, firstname, lastname) {
+      var ls_name_errmsg = '';
+      if (salutation == '') {
+        ls_name_errmsg = ls_name_errmsg + "{{FieldTitles.salutation}}";
+      }
+      if (firstname == '') {
+        if (ls_name_errmsg != '') {
+          ls_name_errmsg = ls_name_errmsg + ", ";
+        }
+        ls_name_errmsg = ls_name_errmsg + "{{FieldTitles.firstname}}";
+      }
+      if (lastname == '') {
+        if (ls_name_errmsg != '') {
+          ls_name_errmsg = ls_name_errmsg + ", ";
+        }
+        ls_name_errmsg = ls_name_errmsg + "{{FieldTitles.lastname}}";
+      }
+      return ls_name_errmsg;
+    }
+
+    // we need a handler outside "on submit" to determine the clicked button name
+    // cf. https://forum.jquery.com/topic/determining-which-of-two-submit-buttons-were-clicked-in-a-single-form
+    var buttonpressed;
+    $('.classAndDocsFormSubmit').click(function() {
+        buttonpressed = $(this).attr('name')
+    });
+
+    $('#contact_form').validator({
+      feedback: {success: 'glyphicon-ok', error: 'glyphicon-info-sign'},
+      delay: '500',
+      disable: false
+    }).on('submit', function(e) {
+      //bootbox.alert('Name:'+ buttonpressed);
+      // delete previous message
+      name_validation_alert.hide();
+
+      if  (buttonpressed == 'btn-validate-name') {
+        // set Label to Original
+        $("label[for='SalutationInput']").text('{{FieldTitles.salutation}}');
+        $("label[for='TitleInput']").text('{{FieldTitles.title}}');
+        $("label[for='FirstnameInput']").text('{{FieldTitles.firstname}}');
+        $("label[for='LastnameInput']").text('{{FieldTitles.lastname}}');
+
+        // following variables are global (cause they aren't defined locally)
+        // cf. https://www.w3schools.com/js/js_scope.asp
+        // so we can get their values on pressed restore button (see below)
+        ls_salutation=this.SalutationInput.value;
+        ls_title=this.TitleInput.value;
+        ls_firstname=this.FirstnameInput.value;
+        ls_lastname=this.LastnameInput.value;
+
+        if (e.isDefaultPrevented()) {
+          // handle the invalid form...
+          //bootbox.alert('isDssefaultPrevented ');
+        } else {
+          // everything looks good!
+          //bootbox.alert('is !DefaultPrevented ');
+        }
+
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Use Ajax to submit form data
+        $.post(
+          $form.attr('action'),
+          $form.serialize(),
+          function(result) {
+            if (ls_salutation != result.SalutationOutput) {
+              $("label[for='SalutationInput']").text('{{FieldTitles.salutation}} '+result.SalutationOutputMessage);
+              $("#SalutationInput").closest('.form-group').removeClass('has-success').removeClass('has-warning').addClass('has-feedback').addClass('has-warning');
+            }
+            if (ls_title != result.TitleOutput) {
+              $("label[for='TitleInput']").text('{{FieldTitles.title}} '+result.TitleOutputMessage);
+              $("#TitleInput").closest('.form-group').removeClass('has-success').removeClass('has-warning').addClass('has-feedback').addClass('has-warning');
+            }
+            if (ls_firstname != result.FirstnameOutput) {
+              $("label[for='FirstnameInput']").text('{{FieldTitles.firstname}} '+result.FirstnameOutputMessage);
+              $("#FirstnameInput").closest('.form-group').removeClass('has-success').removeClass('has-warning').addClass('has-feedback').addClass('has-warning');
+            }
+            if (ls_lastname != result.LastnameOutput) {
+              $("label[for='LastnameInput']").text('{{FieldTitles.lastname}} '+result.LastnameOutputMessage);
+              $("#LastnameInput").closest('.form-group').removeClass('has-success').removeClass('has-warning').addClass('has-feedback').addClass('has-warning');
+            }
+
+            $("#ZIPInput").val(result.GeneralStatus);
+            $("#CityInput").val(result.ConversionMessage);
+            $("#SalutationInput").val(result.SalutationOutput);
+            $("#TitleInput").val(result.TitleOutput);
+            $("#FirstnameInput").val(result.FirstnameOutput);
+            $("#LastnameInput").val(result.LastnameOutput);
+
+            // check if all neccessary name elements are now present
+            var ls_name_errmsg = getNameErrMsg(result.SalutationOutput, result.FirstnameOutput, result.LastnameOutput);
+
+            if (result.GeneralStatus == '1') {
+              if (ls_name_errmsg == '') {
+                name_validation_alert.success(result.ConversionMessage);
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html('');
+              $("#btn-restore-name").hide();
+            }
+            else if (result.GeneralStatus == '2') {
+              name_validation_alert.warning(result.ConversionMessage);
+              if (ls_name_errmsg == '') {
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html(ls_myentry_btn);
+              $("#btn-restore-name").show();
+            }
+            else if (result.GeneralStatus == '3') {
+              name_validation_alert.warning(result.ConversionMessage);
+              if (ls_name_errmsg == '') {
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html(ls_myentry_btn);
+              $("#btn-restore-name").show();
+            }
+            else if (result.GeneralStatus == '4') {
+              name_validation_alert.warning(result.ConversionMessage);
+              if (ls_name_errmsg == '') {
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html('');
+              $("#btn-restore-name").hide();
+            }
+            else if (result.GeneralStatus == '6') {
+              name_validation_alert.warning(result.ConversionMessage);
+              if (ls_name_errmsg == '') {
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html('');
+              $("#btn-restore-name").hide();
+            }
+            else if (result.GeneralStatus == '7') {
+              name_validation_alert.warning(result.ConversionMessage);
+              if (ls_name_errmsg == '') {
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html(ls_myentry_btn);
+              $("#btn-restore-name").show();
+            }
+            else if (result.GeneralStatus == '8') {
+              name_validation_alert.warning(result.ConversionMessage);
+              if (ls_name_errmsg == '') {
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html('');
+              $("#btn-restore-name").hide();
+            }
+            else if (result.GeneralStatus == '9') {
+              name_validation_alert.warning(result.ConversionMessage);
+              if (ls_name_errmsg == '') {
+                $("#btn-accept-name").html(ls_ok_btn);
+                $("#btn-accept-name").show();
+              }
+              else {
+                name_validation_alert.error(ls_name_errmsg);
+              }
+              $("#btn-restore-name").html('');
+              $("#btn-restore-name").hide();
+            }
+
+            //window.location.href = '/address_validation_mask?action=edit&project=dummy';
+          },
+          'json'
+        )
+        .fail(function(jqXhr, textStatus, errorThrown) {
+          if (jqXhr["status"] == 901) {
+            name_validation_alert.warning(ls_status901);
+            $("#btn-accept-name").html(ls_ok_btn);
+            $("#btn-accept-name").show();
+          }
+          if (jqXhr["status"] == 902) {
+            name_validation_alert.warning(ls_status902);
+            $("#btn-accept-name").html(ls_ok_btn);
+            $("#btn-accept-name").show();
+          }
+          //window.alert('ERROR: '+ jqXhr["status"] + ' Error Message: ' + jqXhr["responseJSON"]["errorMessage"] + ' ('+JSON.stringify(errorThrown)+')');
+        });
+      } // if btn-validate-name
+      else if (buttonpressed == 'btn-accept-name') {
+        var ls_name_errmsg = getNameErrMsg(SalutationInput.value, FirstnameInput.value, LastnameInput.value);
+        if (ls_name_errmsg != '') {
+          name_validation_alert.error(ls_name_errmsg);
+        }
+        else {
+          $("#btn-accept-name").html('');
+          $("#btn-accept-name").hide();
+          $("#btn-restore-name").html('');
+          $("#btn-restore-name").hide();
+          $("#collapseName").collapse('hide');
+          $("#collapseAddress").collapse('show');
+        }
+      }
+      else if (buttonpressed == 'btn-restore-name') {
+        // set Label to Original
+        $("label[for='SalutationInput']").text('{{FieldTitles.salutation}}');
+        $("label[for='TitleInput']").text('{{FieldTitles.title}}');
+        $("label[for='FirstnameInput']").text('{{FieldTitles.firstname}}');
+        $("label[for='LastnameInput']").text('{{FieldTitles.lastname}}');
+
+        $("#SalutationInput").val(ls_salutation);
+        $("#TitleInput").val(ls_title);
+        $("#FirstnameInput").val(ls_firstname);
+        $("#LastnameInput").val(ls_lastname);
+
+        name_validation_alert.warning('Ihre Eingabe wurde wiederhergestellt');
+        $("#btn-restore-name").html('');
+        $("#btn-restore-name").hide();
+      }
+    });
+
+  });
+
+</script>
+{{/section}}
