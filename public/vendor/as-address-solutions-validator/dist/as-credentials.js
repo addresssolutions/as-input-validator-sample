@@ -1,5 +1,5 @@
 module.exports = {
-    cookieSecret: '',
+    cookieSecret: 'dummy',
     addsol: {
       host: '185.82.86.101',
       port: '9009',
