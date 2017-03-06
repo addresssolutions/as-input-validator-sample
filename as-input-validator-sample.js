@@ -33,6 +33,8 @@ var client = xmlrpc.createClient({ host: 'localhost', port: 9009, path: '/'})
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
+// ports can be changed here
+// to use standard ports 80 and 443 the server must be started with root permission (or sudo)
 app.set('port', process.env.PORT || 9001);
 app.set('sslport', process.env.PORT || 9002);
 
@@ -308,14 +310,13 @@ app.listen(app.get('port'), function(){
 var options = {
   // uncomment following lines for using ssl certificate
   // change the location/name of private key and certificate as needed!!!
-  key: fs.readFileSync(__dirname + '/ssl/private_key.pem'),
-  cert: fs.readFileSync(__dirname + '/ssl/signed_certificate.crt')
+  // key: fs.readFileSync(__dirname + '/ssl/private_key.pem'),
+  // cert: fs.readFileSync(__dirname + '/ssl/signed_certificate.crt')
 }
 
 var httpsServer = https.createServer(options, app);
 
 httpsServer.listen(app.get('sslport'), function(){
   console.log('Server started in ' + app.get('env') + ' mode on port ' + app.get('sslport') + ' (running in secure mode with ssl/https)');
+  console.log('press Ctrl-C to terminate.');
 });
-
-console.log('press Ctrl-C to terminate.');
