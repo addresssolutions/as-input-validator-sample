@@ -305,18 +305,19 @@ app.use(function(err, req, res, next){
 
 app.listen(app.get('port'), function(){
   console.log('Server started in ' + app.get('env') + ' mode on port ' + app.get('port') + ' (no ssl/https)');
-});
-
-var options = {
-  // uncomment following lines for using ssl certificate
-  // change the location/name of private key and certificate as needed!!!
-  // key: fs.readFileSync(__dirname + '/ssl/private_key.pem'),
-  // cert: fs.readFileSync(__dirname + '/ssl/signed_certificate.crt')
-}
-
-var httpsServer = https.createServer(options, app);
-
-httpsServer.listen(app.get('sslport'), function(){
-  console.log('Server started in ' + app.get('env') + ' mode on port ' + app.get('sslport') + ' (running in secure mode with ssl/https)');
   console.log('press Ctrl-C to terminate.');
 });
+
+// uncomment following lines for using ssl certificate
+// change the location/name of private key and certificate as needed!!!
+//var options = {
+  //key: fs.readFileSync(__dirname + '/ssl/manandtime_private_key.pem'),
+  //cert: fs.readFileSync(__dirname + '/ssl/manandtime_signed_certificate.crt')
+//}
+
+//var httpsServer = https.createServer(options, app);
+
+//httpsServer.listen(app.get('sslport'), function(){
+//  console.log('Server started in ' + app.get('env') + ' mode on port ' + app.get('sslport') + ' (running in secure mode with ssl/https)');
+//});
+//});
