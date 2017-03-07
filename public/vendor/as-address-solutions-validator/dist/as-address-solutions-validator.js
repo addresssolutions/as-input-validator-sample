@@ -205,7 +205,7 @@ module.exports = {
       else {
         // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
         var response_splitted = response.split('~');
-        if (response_splitted.length < 22) {
+        if (response_splitted.length < 23) {
           //res.sendStatus(902);
           cberr.ErrorStatus = 902;
           cberr.ErrorMessage = generate_status_message(countrycode_in, 902);
@@ -215,26 +215,27 @@ module.exports = {
         else {
           if (response_splitted[0] == '0') // 0 = operation successful
           {
-            var rc = response_splitted[2];
-            var conversion_status = response_splitted[4];
-            var gender = response_splitted[5];
-            cbres.SalutationOutput = response_splitted[6];
-            cbres.TitleOutput = response_splitted[7];
-            var initial = response_splitted[8];
-            cbres.FirstnameOutput = response_splitted[9];
-            // var prefix1 = response_splitted[10];
-            // var prefix2 = response_splitted[11];
-            cbres.LastnameOutput = response_splitted[12];
-            // var lastname1 = response_splitted[13];
-            // var lastname2 = response_splitted[14];
-            // var suffix = response_splitted[15];
-            // var Profession = response_splitted[16];
-            // var address_add = response_splitted[17];
-            // var address_addinfo = response_splitted[18];
-            // var number = response_splitted[19];
-            // var organization_name = response_splitted[20];
-            // var organization_type = response_splitted[21];
-            // var pattern = response_splitted[22];
+            cbres.ReleaseInfo = response_splitted[1]
+            var rc = response_splitted[3];
+            var conversion_status = response_splitted[5];
+            var gender = response_splitted[6];
+            cbres.SalutationOutput = response_splitted[7];
+            cbres.TitleOutput = response_splitted[8];
+            var initial = response_splitted[9];
+            cbres.FirstnameOutput = response_splitted[10];
+            // var prefix1 = response_splitted[11];
+            // var prefix2 = response_splitted[12];
+            cbres.LastnameOutput = response_splitted[13];
+            // var lastname1 = response_splitted[14];
+            // var lastname2 = response_splitted[15];
+            // var suffix = response_splitted[16];
+            // var Profession = response_splitted[17];
+            // var address_add = response_splitted[18];
+            // var address_addinfo = response_splitted[19];
+            // var number = response_splitted[20];
+            // var organization_name = response_splitted[21];
+            // var organization_type = response_splitted[22];
+            // var pattern = response_splitted[23];
             //
             cbres.GeneralStatus = '0';
             cbres.ConversionMessage = generate_status_message(countrycode_in, 0);
@@ -476,7 +477,7 @@ module.exports = {
       else {
         // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
         var response_splitted = response.split('~');
-        if (response_splitted.length < 4) {
+        if (response_splitted.length < 7) {
           cberr.ErrorStatus = 902;
           cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
           callback(cberr, cbres);
@@ -485,9 +486,10 @@ module.exports = {
         else {
           if (response_splitted[0] == '0') // 0 = operation successful
           {
+            cbres.ReleaseInfo = response_splitted[1];
             cbres.GeneralStatus = '0';
-            cbres.ValidationCode = response_splitted[3];
-            cbres.ValidationMessage = response_splitted[5];
+            cbres.ValidationCode = response_splitted[4];
+            cbres.ValidationMessage = response_splitted[6];
             callback(null, cbres);
             return;
           }
@@ -529,7 +531,7 @@ module.exports = {
       else {
         // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
         var response_splitted = response.split('~');
-        if (response_splitted.length < 4) {
+        if (response_splitted.length < 7) {
           cberr.ErrorStatus = 902;
           cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
           callback(cberr, cbres);
@@ -538,9 +540,10 @@ module.exports = {
         else {
           if (response_splitted[0] == '0') // 0 = operation successful
           {
+            cbres.ReleaseInfo = response_splitted[1];
             cbres.GeneralStatus = '0';
-            cbres.ValidationCode = response_splitted[3];
-            cbres.ValidationMessage = response_splitted[5];
+            cbres.ValidationCode = response_splitted[4];
+            cbres.ValidationMessage = response_splitted[6];
             callback(null, cbres);
             return;
           }
@@ -582,7 +585,7 @@ module.exports = {
       else {
         // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
         var response_splitted = response.split('~');
-        if (response_splitted.length < 4) {
+        if (response_splitted.length < 7) {
           cberr.ErrorStatus = 902;
           cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
           callback(cberr, cbres);
@@ -591,9 +594,10 @@ module.exports = {
         else {
           if (response_splitted[0] == '0') // 0 = operation successful
           {
+            cbres.ReleaseInfo = response_splitted[1];
             cbres.GeneralStatus = '0';
-            cbres.ValidationCode = response_splitted[3];
-            cbres.ValidationMessage = response_splitted[5];
+            cbres.ValidationCode = response_splitted[4];
+            cbres.ValidationMessage = response_splitted[6];
             callback(null, cbres);
             return;
           }
@@ -635,7 +639,7 @@ module.exports = {
       else {
         // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
         var response_splitted = response.split('~');
-        if (response_splitted.length < 4) {
+        if (response_splitted.length < 7) {
           cberr.ErrorStatus = 902;
           cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
           callback(cberr, cbres);
@@ -644,9 +648,10 @@ module.exports = {
         else {
           if (response_splitted[0] == '0') // 0 = operation successful
           {
+            cbres.ReleaseInfo = response_splitted[1];
             cbres.GeneralStatus = '0';
-            cbres.ValidationCode = response_splitted[3];
-            cbres.ValidationMessage = response_splitted[5];
+            cbres.ValidationCode = response_splitted[4];
+            cbres.ValidationMessage = response_splitted[6];
             callback(null, cbres);
             return;
           }
