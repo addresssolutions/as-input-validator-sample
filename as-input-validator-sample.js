@@ -109,181 +109,78 @@ app.post('/address_validation_mask', function(req, res, next) {
 
 
 app.get('/as_validate_title', function (req, res) {
-  var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
-               credentials.addsol.pass + "~" +  // AS Customer Password
-               "1~" +                           // function version (always 1 currently)
-               "de~" +                          // country/language code to take care about countryspecific names and deliver reult messages in according language
-               req.query.TitleInput + "~";
-  var xmlreq = [];
-  xmlreq.push(reqstr);
+  var as_req = new as_address_solutions_validator.ASValidateNameRequest(
+    1,                           // VersionInput
+    "de",                        // Countrycode de/nl/gb/fr/ch/nn
+    req.query.TitleInput);        // Titel
 
-  client.methodCall('cb.as_validate_title_xo', xmlreq, function (error, response) {
-    // Results of the method response
-    //console.log('response in title: ['+response+'] error: ['+ error + ']');
-
-    // decide what do do if Servcer doesnt't respond: here -> acceppt as success
-    if ((error)||(response == 'undefined')) {
-      console.log('error from cb.as_validate_title_xo:', error);
-      console.log('req headers from cb.as_validate_title_xo:', error.req && error.req._header);
-      console.log('res code from cb.as_validate_title_xo:', error.res && error.res.statusCode);
-      console.log('res body from cb.as_validate_title_xo:', error.body);
-      res.sendStatus(901);
+  as_address_solutions_validator.ASValidateTitle(as_req, function (error, response) {
+    //console.log("response von ASConvertName: " + error + "/" + response);
+    if (error) {
+      //console.log("error response von ASConvertName: " + error.ErrorStatus + "/" + error.ErrorMessage);
+      res.sendStatus(error.ErrorStatus);
     }
     else {
-      // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
-      var response_splitted = response.split('~');
-      if (response_splitted.length < 4) {
-        res.sendStatus(902);
+      // we need to write a status <> 200 to recognized the message in bootstrap-validator
+      if (response.ValidationCode != '1') {
+        res.writeHead(900, response.ValidationMessage);
       }
       else {
-        if (response_splitted[0] == '0') // 0 = operation successful
-        {
-          var title_val = response_splitted[3];
-          var validation_message = response_splitted[5];
-          //console.log('lastname_val: ' + lastname_val);
-          if (title_val === '1') {
-            res.sendStatus(200);
-          }
-          else if (title_val === '2') {
-            res.writeHead(200, validation_message);
-            res.send();
-          }
-          else if (title_val === '3') {
-            res.writeHead(903, validation_message);
-            res.send();
-          }
-          else if (title_val === '4') {
-            if (response_splitted[18] == '') {
-              res.writeHead(904, 'unbekannter Vorname');
-            }
-            else {
-              res.writeHead(904, validation_message);
-            }
-            res.send();
-          }
-        }
+        res.writeHead(200, response.ValidationMessage);
       }
+      res.send();
     }
   });
 });
 
 
 app.get('/as_validate_firstname', function (req, res) {
-  var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
-               credentials.addsol.pass + "~" +  // AS Customer Password
-               "1~" +                           // function version (always 1 currently)
-               "de~" +                          // country/language code to take care about countryspecific names and deliver reult messages in according language
-               req.query.FirstnameInput + "~";
-  var xmlreq = [];
-  xmlreq.push(reqstr);
+  var as_req = new as_address_solutions_validator.ASValidateNameRequest(
+    1,                           // VersionInput
+    "de",                        // Countrycode de/nl/gb/fr/ch/nn
+    req.query.FirstnameInput);        // Titel
 
-  client.methodCall('cb.as_validate_firstname_xo', xmlreq, function (error, response) {
-    // Results of the method response
-    //console.log('response in firstname: ['+response+'] error: ['+ error + ']');
-
-    // decide what do do if Servcer doesnt't respond: here -> acceppt as success
-    if ((error)||(response == 'undefined')) {
-      console.log('error from cb.as_validate_firstname_xo:', error);
-      console.log('req headers from cb.as_validate_firstname_xo:', error.req && error.req._header);
-      console.log('res code from cb.as_validate_firstname_xo:', error.res && error.res.statusCode);
-      console.log('res body from cb.as_validate_firstname_xo:', error.body);
-      res.sendStatus(901);
+  as_address_solutions_validator.ASValidateFirstname(as_req, function (error, response) {
+    //console.log("response von ASConvertName: " + error + "/" + response);
+    if (error) {
+      //console.log("error response von ASConvertName: " + error.ErrorStatus + "/" + error.ErrorMessage);
+      res.sendStatus(error.ErrorStatus);
     }
     else {
-      //console.log('response in firstname is NOT undefined');
-      // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
-      var response_splitted = response.split('~');
-      if (response_splitted.length < 4) {
-        res.sendStatus(902);
+      // we need to write a status <> 200 to recognized the message in bootstrap-validator
+      if (response.ValidationCode != '1') {
+        res.writeHead(900, response.ValidationMessage);
       }
       else {
-        if (response_splitted[0] == '0') // 0 = operation successful
-        {
-          var firstname_val = response_splitted[3];
-          var validation_message = response_splitted[5];
-          //console.log('lastname_val: ' + lastname_val);
-
-          if (firstname_val === '1') {
-            res.sendStatus(200);
-          }
-          else if (firstname_val === '2') {
-            res.writeHead(200, validation_message);
-            res.send();
-          }
-          else if (firstname_val === '3') {
-            res.writeHead(903, validation_message);
-            res.send();
-          }
-          else if (firstname_val === '4') {
-            if (response_splitted[18] == '') {
-              res.writeHead(904, 'unbekannter Vorname');
-            }
-            else {
-              res.writeHead(904, validation_message);
-            }
-            res.send();
-          }
-        }
+        res.writeHead(200, response.ValidationMessage);
       }
+      res.send();
     }
   });
 });
 
+
 app.get('/as_validate_lastname', function (req, res) {
-  var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
-               credentials.addsol.pass + "~" +  // AS Customer Password
-               "1~" +                           // function version (always 1 currently)
-               "de~" +                          // country/language code to take care about countryspecific names and deliver reult messages in according language
-               req.query.LastnameInput + "~";
-  var xmlreq = [];
-  xmlreq.push(reqstr);
+  var as_req = new as_address_solutions_validator.ASValidateNameRequest(
+    1,                           // VersionInput
+    "de",                        // Countrycode de/nl/gb/fr/ch/nn
+    req.query.LastnameInput);        // Titel
 
-  client.methodCall('cb.as_validate_lastname_xo', xmlreq, function (error, response) {
-    // Results of the method response
-    //console.log('response in lastname: ['+response+']');
-
-    // decide what do do if Servcer doesnt't respond: here -> acceppt as success
-    if ((error)||(response == 'undefined')) {
-      console.log('error from cb.as_validate_lastname_xo:', error);
-      console.log('req headers from cb.as_validate_lastname_xo:', error.req && error.req._header);
-      console.log('res code from cb.as_validate_lastname_xo:', error.res && error.res.statusCode);
-      console.log('res body from cb.as_validate_lastname_xo:', error.body);
-      res.sendStatus(901);
+  as_address_solutions_validator.ASValidateLastname(as_req, function (error, response) {
+    //console.log("response von ASConvertName: " + error + "/" + response);
+    if (error) {
+      //console.log("error response von ASConvertName: " + error.ErrorStatus + "/" + error.ErrorMessage);
+      res.sendStatus(error.ErrorStatus);
     }
     else {
-      // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
-      var response_splitted = response.split('~');
-      if (response_splitted.length < 4) {
-        res.sendStatus(902);
+      // we need to write a status <> 200 to recognized the message in bootstrap-validator
+      if (response.ValidationCode != '1') {
+        res.writeHead(900, response.ValidationMessage);
       }
       else {
-        if (response_splitted[0] == '0') // 0 = operation successful
-        {
-          var lastname_val = response_splitted[3];
-          var validation_message = response_splitted[5];
-          //console.log('lastname_val: ' + lastname_val);
-          if (lastname_val === '1') {
-            res.sendStatus(200);
-          }
-          else if (lastname_val === '2') {
-            res.writeHead(200, 'anderes Namenselement bleibt');
-            res.send();
-          }
-          else if (lastname_val === '3') {
-            res.writeHead(903, validation_message);
-            res.send();
-          }
-          else if (lastname_val === '4') {
-            if (response_splitted[18] == '') {
-              res.writeHead(904, 'unbekannter Vorname');
-            }
-            else {
-              res.writeHead(904, validation_message);
-            }
-            res.send();
-          }
-        }
+        res.writeHead(200, response.ValidationMessage);
       }
+      res.send();
     }
   });
 });

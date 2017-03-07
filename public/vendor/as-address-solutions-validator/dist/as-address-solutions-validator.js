@@ -114,6 +114,26 @@ module.exports = {
     this.ErrorMessage = '';             // info text to ErrorStatus
   },
 
+  ASValidateNameRequest: function(VersionInput,       // specify a certain version, currently just "1"
+                                 CountrycodeInput,    // Countrycode de/nl/gb/fr/ch/nn
+                                 NameElementInput) {  // Salution, Title, Firstname, ...
+    this.VersionInput = VersionInput;
+    this.CountrycodeInput = CountrycodeInput;
+    this.NameElementInput = NameElementInput;
+  },
+
+  ASValidateNameResponse: function() {
+    this.ReleaseInfo = '';              // ReleaseInfo of used Server
+    this.GeneralStatus = '';            // general Status (tbd)
+    this.ValidationCode = '';           // Validation Code 1: Element ok, 2: Not OK, but could stay here, 3: not OK should be moved
+    this.ValidationMessage = '';        // Message
+  },
+
+  ASValidateNameError: function() {
+    this.ErrorStatus = '';              // technical error in call to ConvertBox (i.e. Network problem)
+    this.ErrorMessage = '';             // info text to ErrorStatus
+  },
+
   ASConvertName: function (req, callback) {
     var version_in = req.VersionInput;
     var countrycode_in = req.CountrycodeInput;
@@ -427,5 +447,219 @@ module.exports = {
         }
       }
     });
-  }
+  },
+
+
+  ASValidateTitulation: function (req, callback) {
+    var cberr = new this.ASValidateNameError();
+    var cbres = new this.ASValidateNameResponse();
+
+    var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
+                 credentials.addsol.pass + "~" +  // AS Customer Password
+                 req.VersionInput + "~"           // function version (always 1 currently)
+                 req.CountrycodeInput + "~" +     // country/language code to take care about countryspecific names and deliver reult messages in according language
+                 req.NameElementInput + "~";
+    var xmlreq = [];
+    xmlreq.push(reqstr);
+
+    client_convert.methodCall('cb.as_validate_titulation_xo', xmlreq, function (error, response) {
+      // Results of the method response
+      //console.log('response von method_call: '+response);
+      // decide what do do if Servcer doesnt't respond: here -> acceppt as success
+      if ((error)||(response == 'undefined')) {
+        console.log('error from cb.as_validate_titulation_xo:', error);
+        cberr.ErrorStatus = 901;
+        cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 901);
+        callback(cberr, cbres);
+        return;
+      }
+      else {
+        // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
+        var response_splitted = response.split('~');
+        if (response_splitted.length < 4) {
+          cberr.ErrorStatus = 902;
+          cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
+          callback(cberr, cbres);
+          return;
+        }
+        else {
+          if (response_splitted[0] == '0') // 0 = operation successful
+          {
+            cbres.GeneralStatus = '0';
+            cbres.ValidationCode = response_splitted[3];
+            cbres.ValidationMessage = response_splitted[5];
+            callback(null, cbres);
+            return;
+          }
+          else {
+            cbres.GeneralStatus = '9';
+            cbres.ValidationCode = '';
+            cbres.ValidationMessage = '';
+            callback(null, cbres);
+            return;
+          }
+        }
+      }
+    });
+  },
+
+  ASValidateTitle: function (req, callback) {
+    var cberr = new this.ASValidateNameError();
+    var cbres = new this.ASValidateNameResponse();
+
+    var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
+                 credentials.addsol.pass + "~" +  // AS Customer Password
+                 req.VersionInput + "~" +         // function version (always 1 currently)
+                 req.CountrycodeInput + "~" +     // country/language code to take care about countryspecific names and deliver reult messages in according language
+                 req.NameElementInput + "~";
+    var xmlreq = [];
+    xmlreq.push(reqstr);
+
+    client_convert.methodCall('cb.as_validate_title_xo', xmlreq, function (error, response) {
+      // Results of the method response
+      //console.log('response von method_call: '+response);
+      // decide what do do if Servcer doesnt't respond: here -> acceppt as success
+      if ((error)||(response == 'undefined')) {
+        console.log('error from cb.as_validate_title_xo:', error);
+        cberr.ErrorStatus = 901;
+        cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 901);
+        callback(cberr, cbres);
+        return;
+      }
+      else {
+        // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
+        var response_splitted = response.split('~');
+        if (response_splitted.length < 4) {
+          cberr.ErrorStatus = 902;
+          cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
+          callback(cberr, cbres);
+          return;
+        }
+        else {
+          if (response_splitted[0] == '0') // 0 = operation successful
+          {
+            cbres.GeneralStatus = '0';
+            cbres.ValidationCode = response_splitted[3];
+            cbres.ValidationMessage = response_splitted[5];
+            callback(null, cbres);
+            return;
+          }
+          else {
+            cbres.GeneralStatus = '9';
+            cbres.ValidationCode = '';
+            cbres.ValidationMessage = '';
+            callback(null, cbres);
+            return;
+          }
+        }
+      }
+    });
+  },
+
+  ASValidateFirstname: function (req, callback) {
+    var cberr = new this.ASValidateNameError();
+    var cbres = new this.ASValidateNameResponse();
+
+    var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
+                 credentials.addsol.pass + "~" +  // AS Customer Password
+                 req.VersionInput + "~" +         // function version (always 1 currently)
+                 req.CountrycodeInput + "~" +     // country/language code to take care about countryspecific names and deliver reult messages in according language
+                 req.NameElementInput + "~";
+    var xmlreq = [];
+    xmlreq.push(reqstr);
+
+    client_convert.methodCall('cb.as_validate_firstname_xo', xmlreq, function (error, response) {
+      // Results of the method response
+      //console.log('response von method_call: '+response);
+      // decide what do do if Servcer doesnt't respond: here -> acceppt as success
+      if ((error)||(response == 'undefined')) {
+        console.log('error from cb.as_validate_firstname_xo:', error);
+        cberr.ErrorStatus = 901;
+        cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 901);
+        callback(cberr, cbres);
+        return;
+      }
+      else {
+        // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
+        var response_splitted = response.split('~');
+        if (response_splitted.length < 4) {
+          cberr.ErrorStatus = 902;
+          cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
+          callback(cberr, cbres);
+          return;
+        }
+        else {
+          if (response_splitted[0] == '0') // 0 = operation successful
+          {
+            cbres.GeneralStatus = '0';
+            cbres.ValidationCode = response_splitted[3];
+            cbres.ValidationMessage = response_splitted[5];
+            callback(null, cbres);
+            return;
+          }
+          else {
+            cbres.GeneralStatus = '9';
+            cbres.ValidationCode = '';
+            cbres.ValidationMessage = '';
+            callback(null, cbres);
+            return;
+          }
+        }
+      }
+    });
+  },
+
+  ASValidateLastname: function (req, callback) {
+    var cberr = new this.ASValidateNameError();
+    var cbres = new this.ASValidateNameResponse();
+
+    var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
+                 credentials.addsol.pass + "~" +  // AS Customer Password
+                 req.VersionInput + "~" +         // function version (always 1 currently)
+                 req.CountrycodeInput + "~" +     // country/language code to take care about countryspecific names and deliver reult messages in according language
+                 req.NameElementInput + "~";
+    var xmlreq = [];
+    xmlreq.push(reqstr);
+
+    client_convert.methodCall('cb.as_validate_lastname_xo', xmlreq, function (error, response) {
+      // Results of the method response
+      //console.log('response von method_call: '+response);
+      // decide what do do if Servcer doesnt't respond: here -> acceppt as success
+      if ((error)||(response == 'undefined')) {
+        console.log('error from cb.as_validate_lastname_xo:', error);
+        cberr.ErrorStatus = 901;
+        cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 901);
+        callback(cberr, cbres);
+        return;
+      }
+      else {
+        // response has following structure: "returncode~returnmessage~number of results~validation status~validation name tpyes~validation message"
+        var response_splitted = response.split('~');
+        if (response_splitted.length < 4) {
+          cberr.ErrorStatus = 902;
+          cberr.ErrorMessage = generate_status_message(req.CountrycodeInput, 902);
+          callback(cberr, cbres);
+          return;
+        }
+        else {
+          if (response_splitted[0] == '0') // 0 = operation successful
+          {
+            cbres.GeneralStatus = '0';
+            cbres.ValidationCode = response_splitted[3];
+            cbres.ValidationMessage = response_splitted[5];
+            callback(null, cbres);
+            return;
+          }
+          else {
+            cbres.GeneralStatus = '9';
+            cbres.ValidationCode = '';
+            cbres.ValidationMessage = '';
+            callback(null, cbres);
+            return;
+          }
+        }
+      }
+    });
+  },
+
 };
