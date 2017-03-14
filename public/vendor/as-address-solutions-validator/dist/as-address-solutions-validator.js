@@ -80,6 +80,19 @@ function generate_hint(countrycode, hintno) {
   }
 }
 
+// compare strings ignoring case, spaces, ...
+function is_standardized_string (string1, string2) {
+console.log('1: ['+string1+'] 2: ['+string1+']');
+  string1 = string1.toLowerCase();
+  string2 = string2.toLowerCase();
+
+  string1 = string1.replace(/[\ \.\(\)\-\+\&]/g, "");
+  string2 = string2.replace(/[\ \.\(\)\-\+\&]/g, "");
+console.log('2: ['+string1+'] 2: ['+string1+']');
+
+  return string1 === string2;
+}
+
 module.exports = {
   ASConvertNameRequest: function(VersionInput,      // specify a certain version, currently just "1"
                                  CountrycodeInput,  // Countrycode de/nl/gb/fr/ch/nn
@@ -284,7 +297,7 @@ module.exports = {
                     cbres.GeneralStatus = '2';
                   }
                   else if (req.SalutationInput != generate_salutation(countrycode_in, 'm')) {
-                    cbres.SalutationOutputMessage = generate_hint(countrycode_in, 1);
+                    cbres.SalutationOutputMessage = generate_hint(countrycode_in, 2);
                     cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                     cbres.GeneralStatus = '3';
                   }
@@ -307,7 +320,7 @@ module.exports = {
                     cbres.GeneralStatus = '2';
                   }
                   else if (req.SalutationInput != generate_salutation(countrycode_in, 'f')) {
-                    cbres.SalutationOutputMessage = generate_hint(countrycode_in, 1);
+                    cbres.SalutationOutputMessage = generate_hint(countrycode_in, 2);
                     cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                     cbres.GeneralStatus = '3';
                   }
@@ -327,23 +340,39 @@ module.exports = {
                 }
 
                 // check the title output
+                // Output filled
                 if (cbres.TitleOutput != '') {
+                  // no Input
                   if (req.TitleInput == '') {
-                    cbres.TitleOutputMessage = generate_hint(countrycode_in, 2);
+                    // so it was faound in different field
+                    cbres.TitleOutputMessage = generate_hint(countrycode_in, 3);
                     cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                     cbres.GeneralStatus = '3';
                   }
-                  else if (req.TitleInput != '') {
-                    if (req.TitleInput != cbres.TitleOutput) {
-                      cbres.TitleOutputMessage = generate_hint(countrycode_in, 3);
+                  // Input was also present and differs
+                  else if ( (req.TitleInput != '') && (req.TitleInput != cbres.TitleOutput) ) {
+                    // if nearly same
+                    if (is_standardized_string(req.TitleInput, cbres.TitleOutput)) {
+                      // so it has just been standardized
+                      cbres.TitleOutputMessage = generate_hint(countrycode_in, 1);
                       if (cbres.GeneralStatus != '3') {
                         cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
                         cbres.general_status = '2';
                       }
                     }
+                    // they were significant different
+                    else {
+                      // so Title has been corrected in some way
+                      cbres.TitleOutputMessage = generate_hint(countrycode_in, 2);
+                      cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
+                      cbres.general_status = '3';
+                    }
                   }
                 }
+                // Output is empty
                 else if (req.TitleInput != '') {
+                  // but Input was present
+                  // so content was moved to different field
                   cbres.TitleOutputMessage = generate_hint(countrycode_in, 4);
                   cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                   cbres.GeneralStatus = '3';
@@ -357,51 +386,85 @@ module.exports = {
                   cbres.GeneralStatus = '3';
                 }
 
-                // check the firstname
+                // check the firstname output
+                // Output filled
                 if (cbres.FirstnameOutput != '') {
+                  // no Input
                   if (req.FirstnameInput == '') {
-                    cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 5);
+                    // so it was faund in different field
+                    cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 3);
                     cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                     cbres.GeneralStatus = '3';
                   }
-                  else if (req.FirstnameInput != '') {
-                    if (req.FirstnameInput != cbres.FirstnameOutput) {
-                      cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 6);
+
+                  // Input was also present and differs
+                  else if ( (req.FirstnameInput != '') && (req.FirstnameInput != cbres.FirstnameOutput) ) {
+                    // if nearly same
+                    if (is_standardized_string(req.FirstnameInput, cbres.FirstnameOutput)) {
+                      // so it has just been standardized
+                      cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 1);
                       if (cbres.GeneralStatus != '3') {
-                        cbres.general_status = '2';
                         cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
+                        cbres.general_status = '2';
                       }
+                    }
+                    // they were significant difference
+                    else {
+                      // so Firstname has been corrected in some way
+                      cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 2);
+                      cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
+                      cbres.general_status = '3';
                     }
                   }
                 }
+                // Output is empty
                 else if (req.FirstnameInput != '') {
-                  cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 7);
+                  // but Input was present
+                  // so content was moved to different field
+                  cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 4);
                   cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                   cbres.GeneralStatus = '3';
                 }
 
-                // check the lastname
+                // check the lastname output
+                // Output filled
                 if (cbres.LastnameOutput != '') {
+                  // no Input
                   if (req.LastnameInput == '') {
-                    cbres.LastnameOutputMessage = generate_hint(countrycode_in, 5);
+                    // so it was faund in different field
+                    cbres.LastnameOutputMessage = generate_hint(countrycode_in, 3);
                     cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                     cbres.GeneralStatus = '3';
                   }
-                  else if (req.LastnameInput != '') {
-                    if (req.LastnameInput != cbres.LastnameOutput) {
-                      cbres.LastnameOutputMessage = generate_hint(countrycode_in, 6);
+                  // Input was also present and differs
+                  else if ( (req.LastnameInput != '') && (req.LastnameInput != cbres.LastnameOutput) ) {
+                    // if nearly same
+                    if (is_standardized_string(req.LastnameInput, cbres.LastnameOutput)) {
+                      // so it has just been standardized
+                      cbres.LastnameOutputMessage = generate_hint(countrycode_in, 1);
                       if (cbres.GeneralStatus != '3') {
-                        cbres.general_status = '2';
                         cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
+                        cbres.general_status = '2';
                       }
+                    }
+                    // they were significant difference
+                    else {
+                      // so Lastname has been corrected in some way
+                      cbres.LastnameOutputMessage = generate_hint(countrycode_in, 2);
+                      cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
+                      cbres.general_status = '3';
                     }
                   }
                 }
+                // Output is empty
                 else if (req.LastnameInput != '') {
-                  cbres.LastnameOutputMessage = generate_hint(countrycode_in, 7);
+                  // but Input was present
+                  // so content was moved to different field
+                  cbres.LastnameOutputMessage = generate_hint(countrycode_in, 4);
                   cbres.ConversionMessage = generate_status_message(countrycode_in, 3);
                   cbres.GeneralStatus = '3';
                 }
+
               } // end of Individual
 
               // res.function_status = 200;

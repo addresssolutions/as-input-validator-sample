@@ -76,23 +76,17 @@ module.exports = {
 
   hints: {
     de: [
-    '(generiert!)',
-    '(korrigiert)',
-    '(gefunden)',
+    '(generiert)',
     '(standardisiert)',
-    '(verschoben)',
+    '(korrigiert)',
     '(in anderem Feld gefunden)',
-    '(standardisiert/korrigiert)',
     '(in anderes Feld verschoben)'
   ],
-  gb: [
+    gb: [
     '(generated)',
-    '(corrected)',
-    '(found)',
     '(standardized)',
-    '(moved)',
+    '(corrected)',
     '(found in other field)',
-    '(standardized/corrected)',
     '(moved to other field)',
     ]
   },
