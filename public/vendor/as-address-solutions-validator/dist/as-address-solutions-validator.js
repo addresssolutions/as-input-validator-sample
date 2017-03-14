@@ -336,8 +336,10 @@ module.exports = {
                   else if (req.TitleInput != '') {
                     if (req.TitleInput != cbres.TitleOutput) {
                       cbres.TitleOutputMessage = generate_hint(countrycode_in, 3);
-                      cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
-                      if (cbres.GeneralStatus != '3') cbres.general_status = '2';
+                      if (cbres.GeneralStatus != '3') {
+                        cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
+                        cbres.general_status = '2';
+                      }
                     }
                   }
                 }
@@ -365,8 +367,10 @@ module.exports = {
                   else if (req.FirstnameInput != '') {
                     if (req.FirstnameInput != cbres.FirstnameOutput) {
                       cbres.FirstnameOutputMessage = generate_hint(countrycode_in, 6);
-                      cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
-                      if (cbres.GeneralStatus != '3') cbres.general_status = '2';
+                      if (cbres.GeneralStatus != '3') {
+                        cbres.general_status = '2';
+                        cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
+                      }
                     }
                   }
                 }
@@ -386,8 +390,10 @@ module.exports = {
                   else if (req.LastnameInput != '') {
                     if (req.LastnameInput != cbres.LastnameOutput) {
                       cbres.LastnameOutputMessage = generate_hint(countrycode_in, 6);
-                      cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
-                      if (cbres.GeneralStatus != '3') cbres.general_status = '2';
+                      if (cbres.GeneralStatus != '3') {
+                        cbres.general_status = '2';
+                        cbres.ConversionMessage = generate_status_message(countrycode_in, 2);
+                      }
                     }
                   }
                 }
@@ -457,7 +463,7 @@ module.exports = {
 
     var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
                  credentials.addsol.pass + "~" +  // AS Customer Password
-                 req.VersionInput + "~" +         // function version (always 1 currently)
+                 req.VersionInput + "~"           // function version (always 1 currently)
                  req.CountrycodeInput + "~" +     // country/language code to take care about countryspecific names and deliver reult messages in according language
                  req.NameElementInput + "~";
     var xmlreq = [];
