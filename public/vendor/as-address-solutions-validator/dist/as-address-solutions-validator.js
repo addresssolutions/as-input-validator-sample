@@ -451,13 +451,13 @@ module.exports = {
   },
 
 
-  ASValidateTitulation: function (req, callback) {
+  ASValidateSalutation: function (req, callback) {
     var cberr = new this.ASValidateNameError();
     var cbres = new this.ASValidateNameResponse();
 
     var reqstr = credentials.addsol.id + "~" +    // AS Customer ID
                  credentials.addsol.pass + "~" +  // AS Customer Password
-                 req.VersionInput + "~"           // function version (always 1 currently)
+                 req.VersionInput + "~" +         // function version (always 1 currently)
                  req.CountrycodeInput + "~" +     // country/language code to take care about countryspecific names and deliver reult messages in according language
                  req.NameElementInput + "~";
     var xmlreq = [];

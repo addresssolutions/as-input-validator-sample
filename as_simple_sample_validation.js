@@ -1,14 +1,13 @@
 // use the address solutions library
 var as_address_solutions_validator = require('./public/vendor/as-address-solutions-validator/dist/as-address-solutions-validator.js');
 
-function call_as_validate_firstname(vorname) {
+function call_as_validate_salutation(anrede) {
   var as_req = new as_address_solutions_validator.ASValidateNameRequest(
     1,                                  // VersionInput
     "de",                               // Countrycode
-    vorname);                            // Vorname, der validiert werden soll
+    anrede);                            // Anrede, die validiert werden soll
 
-  as_address_solutions_validator.ASValidateFirstname(as_req, function (error, response) {
-    //console.log("response von ASConvertName: " + error + "/" + response);
+  as_address_solutions_validator.ASValidateSalutation(as_req, function (error, response) {
     if (error) {
       console.log("error response von ASValidateName: " + error.ErrorStatus + "/" + error.ErrorMessage);
     }
@@ -30,7 +29,7 @@ function call_as_validate_firstname(vorname) {
   });
 }
 
-call_as_validate_firstname("Rralf");
+call_as_validate_salutation("Dr.");
 
 // other examples
 // call_as_validate_firstname("Woflgang");
