@@ -37,6 +37,11 @@ http://localhost:9001/address_validation_mask
 ein. Ersetzen Sie localhost durch die IP-Adresse des Servers, auf dem Sie den Service gestartet haben, falls Browser und Server auf unterschiedlichen Systemen laufen.
 
 
+## Referenz
+Wenn alles funktioniert hat, dann sollten Sie eine Webseite sehen, die wie diese aussieht: http://185.82.86.101:9001/address_validation_mask
+
+
+
 Author
 
 
