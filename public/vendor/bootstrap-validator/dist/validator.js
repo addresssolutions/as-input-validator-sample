@@ -220,7 +220,7 @@
   Validator.prototype.focusError = function () {
     if (!this.options.focus) return
 
-    var $input = this.$element.find(".has-error:first :input")
+    var $input = this.$element.find(".has-error :input:first")
     if ($input.length === 0) return
 
     $('html, body').animate({scrollTop: $input.offset().top - Validator.FOCUS_OFFSET}, 250)
@@ -242,7 +242,7 @@
 
     $block.data('bs.validator.originalContent') === undefined && $block.data('bs.validator.originalContent', $block.html())
     $block.empty().append(errors)
-    $group.addClass('has-error has-warning')
+    $group.addClass('has-error has-danger')
 
     $group.hasClass('has-feedback')
       && $feedback.removeClass(this.options.feedback.success)
@@ -256,7 +256,7 @@
     var $feedback = $group.find('.form-control-feedback')
 
     $block.html($block.data('bs.validator.originalContent'))
-    $group.removeClass('has-error has-warning has-success')
+    $group.removeClass('has-error has-danger has-success')
 
     $group.hasClass('has-feedback')
       && $feedback.removeClass(this.options.feedback.error)
@@ -325,7 +325,7 @@
 
     this.$btn.removeClass('disabled')
 
-    this.$element.find('.has-error, .has-warning, .has-success').removeClass('has-error has-warning has-success')
+    this.$element.find('.has-error, .has-danger, .has-success').removeClass('has-error has-danger has-success')
 
     return this
   }

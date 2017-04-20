@@ -13,26 +13,22 @@
         -->
         <title>AS Address Solutions GmbH</title>
 
+<!--
         {{#if showTests}}
             <link rel="stylesheet" href="/vendor/mocha.css">
         {{/if}}
         {{{_sections.head}}}
         <meta name="description" content="">
+-->
 
         <!-- Bootstrap core CSS -->
         <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <link href="/vendor/bootstrap/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
         <!-- Custom styles for this template -->
         <link href="/vendor/bootstrap/docs/examples/dashboard/dashboard.css" rel="stylesheet">
+        <link href="/vendor/flagstrap/dist/css/flags.css" rel="stylesheet">
         <link href="/css/main.css" rel="stylesheet">
-
-        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-        <script src="/vendor/bootstrap/docs/assets/js/ie-emulation-modes-warning.js"></script>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -62,8 +58,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Info</a></li>
                         <li><a href="#">Help</a></li>
                     </ul>
                     <form class="navbar-form navbar-right">
@@ -95,17 +90,21 @@
         <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- FormValidation plugin and the class supports validating Bootstrap form -->
+        <!-- https://github.com/1000hz/bootstrap-validator -->
         <script src="/vendor/bootstrap-validator/dist/validator.js"></script>
-
-        <script src="/vendor/Inputmask-3.x/dist/inputmask/inputmask.js"></script>
-        <script src="/vendor/Inputmask-3.x/dist/inputmask/jquery.inputmask.js"></script>
 
         <!-- bootbox code -->
         <script src="/vendor/bootbox/bootbox.min.js"></script>
 
-        <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-        <script src="/vendor/bootstrap/docs/assets/js/vendor/holder.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="/vendor/bootstrap/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+        <!-- Address Solutions Validation Package -->
+        <script src="/vendor/as-address-solutions-validator/dist/as-address-solutions-validator.js"></script>
+        <script src="/vendor/as-address-solutions-validator/dist/as-credentials.js"></script>
+
+        <!-- https://github.com/bassjobsen/Bootstrap-3-Typeahead -->
+        <script src="/vendor/bootstrap3-typeahead/dist/bootstrap3-typeahead.js"></script>
+
+        <!-- https://github.com/blazeworx/flagstrap -->
+        <script src="/vendor/flagstrap/dist/js/jquery.flagstrap.js"></script>
+
     </body>
 </html>
